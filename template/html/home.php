@@ -578,6 +578,31 @@ app.controller('choiceStep6', function($scope, Data,$location) {
         label:"Dans plus de 6 mois",
       }
     ];
+
+    if(Data.infos[1].vente_loyer){
+      $scope.souhaits = [
+        {
+          value:"renter",
+          label:"Je suis propriétaire bailleur",
+        },
+        {
+          value:"rent",
+          label:"Je suis locataire",
+        }
+      ];
+    }else{
+      $scope.souhaits = [
+        {
+          value:"purchase",
+          label:"Je souhaite acheter ce bien",
+        },
+        {
+          value:"sell",
+          label:"Je souhaite vendre ce bien",
+        }
+      ];
+      
+    }
     $scope.data = {
     	souhait:Data.infos[6].souhait,
     	quand:Data.infos[6].quand,
