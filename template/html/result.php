@@ -3,15 +3,16 @@
 <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
 <!-- <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
 <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' /> -->
-
+<!-- http://vendmy.local/?page_id=8975&lieu=1+Boulevard+du+Docteur+Parini%2C+Marseille&gpsx=0&gpsy=0&vente_loyer=0&type=1&surface=200&pieces=6&chambres=3&etages=2&etat=2&etage_im=2&Balcon=1&Concierge=0&Cuisine=1&Piscine=1&Chauffage=1&Garage=0&Terrasse=0&Ascenseur=0&Parking=0&Cave=0&souhait=purchase&quand=between+3+and+6&investissement=0&result_estimation=1&button=# -->
 <div>
 <div  id="choiceWhere" class="step-estimation active" ng-view>
+
 	<div id="result" class="bar-circle-block ">
    <div  class="valuer-sub-menu">
       <ul class="estimation-menu">
          <li class="active"><a  href="#part-estimation"> Estimation</a></li>
          <!-- <li><a ><i class="bdv-icon-app-Inscrease"></i> Évolution</a></li> -->
-         <li><a  href="#part-Comparatif"><i class="bdv-icon-app-PinMap"></i> Comparatif</a></li>
+         <li><a  href="#part-comparatif"><i class="bdv-icon-app-PinMap"></i> Comparatif</a></li>
 <!--          <li class="ng-star-inserted"><a href="#part-Rentabilite"><i class="bdv-icon-app-Dynamics"></i> Rentabilité</a></li>
  -->        <?php  if($_GET['vente_loyer']=="0"){  ?> <li class="ng-star-inserted"><a  href="#part-Financement"><i class="bdv-icon-app-Tax"></i> Financement</a></li><?php } ?>
          <li><a href="#part-Evaluation"><i class="bdv-icon-app-GlobalNotation"></i> Évaluation immobilière</a></li>
@@ -52,6 +53,24 @@
       </div>
    </div>
 
+   <div class="dropdown-box center-horizontal"  id="part-comparatif" style="display: none">
+      <h2 class="main-title">Comparatif avec des biens similaires du même secteur</h2>
+      <p>Nous étudions le nombre de transactions historiques ayant eu lieu à cette adresse et correspondant aux qualités intrinsèques de votre bien.</p>
+      <div class="line-up-tax">
+         <div class="line block-line" id="block-line-1">
+            <div ><b id="compare-min">0</b></div>
+            <i>Le moins cher</i>
+         </div>
+         <div class="line block-line" id="block-line-2">
+            <div ><b  id="compare-val">0</b></div>
+            <i>Le bien estimé</i>
+         </div>
+         <div class="line block-line" id="block-line-3">
+            <div ><b  id="compare-max">0</b></div>
+            <i>Le plus cher</i>
+         </div>
+      </div>
+   </div>
    <?php if($_GET['vente_loyer']=="0"){  ?>
 
    <div class="dropdown-box center-horizontal bar-graphe-integration" id="part-Financement" style="display: none">
@@ -127,6 +146,10 @@ var rate_html =function(n){
 var mult_cinq = function(v){
   return Math.ceil(v/5)*5
 }
+var percent = function(val, max){
+  return 100*(val/max);
+}
+// margin-top
 var Data = {
     	stape:0,
     	infos:[
@@ -340,7 +363,7 @@ bdvwidget.setInput(
 
       jQuery("#loader-end").hide(1000);
       jQuery("#part-estimation").slideDown(750);
-      
+      jQuery("#part-comparatif").slideDown(750);
       jQuery("#part-Comparatif").slideDown(750);
       jQuery("#part-integration").slideDown(750);
       jQuery("#part-Financement").slideDown(750);
@@ -356,6 +379,22 @@ bdvwidget.setInput(
         jQuery(".estimation-fourchette-min .price").html(money_val(estimation_min)+"€");
         jQuery(".estimation-fourchette-max .price").html(money_val(estimation_max)+"€");
         jQuery(".estimation-center .price").html(money_val(estimation_val)+"€");
+
+        console.log(data.results.results.mainValuation);
+        var min = data.results.results.mainValuation.virtual_price_min*200;
+        var val = parseInt(data.results.results.mainValuation.predicted_price);
+        var max = data.results.results.mainValuation.virtual_price_max*200;
+        console.log(min);
+        console.log(val);
+        console.log(max);
+        jQuery("#compare-min").html(money_val(min)+" $");
+        jQuery("#compare-val").html(money_val(val)+" $");
+        jQuery("#compare-max").html(money_val(max)+" $ ");
+        jQuery("#block-line-1").css("margin-top",percent(100-percent(min,max),125)+"px");
+        jQuery("#block-line-2").css("margin-top",percent(100-percent(val,max),125)+"px");
+        jQuery("#block-line-3").css("margin-top",percent(100-percent(max,max),125)+"px");
+
+
         if(Data.infos[1].vente_loyer)return 0;
         jQuery("#financement-frais-notariaux").attr("class","progress--circle progress--"+mult_cinq(data.results.results.thirdPartyFees.agency_fees_ratio));
         jQuery("#financement-frais-agence").attr("class","progress--circle progress--"+mult_cinq(data.results.results.thirdPartyFees.notary_fees_ratio));
@@ -399,6 +438,36 @@ bdvwidget.setInput(
 init();
 </script>
 
+<style type="text/css">
+  .line-up-tax {
+    display: flex;
+    width: 100%;    
+    height: 200px;
+  }
+  .line-up-tax > div {
+    width: 33.33%;
+    text-align: center;
+    border-top: solid 3px #3a6490;
+    padding-top: 2.5%;
+    font-family: Raleway,sans-serif;
+  }
+  .line-up-tax > div b {
+    font-weight: bold;
+    font-size: large;
+  }
+  .line-up-tax > div i {
+    color: gray;
+  }
+  .line.block-line{
+    margin-top: 25px;
+  }
+  .line.block-line:first-child {
+    margin-top: 125px;
+  }
+  .line.block-line:last-child {
+    margin-top: 100px;
+  }
+</style>
 
 <style type="text/css">
    p.help-text {
