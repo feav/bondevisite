@@ -186,3 +186,18 @@
 		        line-height: 0px;
 	}
 </style>
+
+
+<style type="text/css">
+@media screen and (max-width: 480px){
+	.dropdown-box.center-horizontal {
+	    width: 100%;
+	}
+	.valuer-formulaire-step1-box {
+	    width: 100%;
+	}
+	h2.item-what-title.ng-binding {
+	    font-size: 15pt;
+	}
+}
+</style>

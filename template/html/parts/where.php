@@ -151,3 +151,21 @@
  		color: white;
  	}
 </style>
+
+<style type="text/css">
+@media screen and (max-width: 480px){
+	.content-dropdown .menu {
+	    top: 45%;
+	}
+	.ui.dropdown .default.text {
+	    position: absolute;
+	    font-size: 6pt;
+	    right: 10px;
+	    padding: 3px 10px 3px 10px;
+	    top: 20%;
+	}
+	.content-dropdown .menu .item {
+	    font-size: 10pt;
+	}
+}
+</style>

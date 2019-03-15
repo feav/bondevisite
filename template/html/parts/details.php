@@ -166,3 +166,14 @@
 	    width: 79%;
 	}
 </style>
+
+<style type="text/css">
+@media screen and (max-width: 480px){
+	#choiceWhere .form-select {
+	    width: 100%;
+	}
+	div.inputs-row {
+	    flex-direction: column;
+	}
+}
+</style>

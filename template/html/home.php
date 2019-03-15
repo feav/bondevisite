@@ -1088,3 +1088,89 @@ app.controller('result', function($scope, Data,$location) {
 
 
 </style>
+
+<style type="text/css">
+@media screen and (max-width: 480px){
+
+  div.valuer-result-global-estimation>div {
+      margin-bottom: 28px;
+      padding: 0px;
+  }
+  div.valuer-result-global-estimation {
+    flex-direction: column;
+    padding: 10px;
+    width: 100%;
+  }
+  .valuer-result-global-estimation h3 {
+      font-size: 7pt;
+  }
+    .valuer-result-global-estimation h1.center {
+      font-size: 15pt;
+  }
+  .valuer-result-global-estimation h1 {
+    font-size: 13pt;
+  }
+  div.holder-box-comp {
+    flex-direction: column;
+    width: 100%;
+  }
+  div.holder-box-comp > div {
+    width: 100%;
+    padding-top: 30%;
+    text-align: center;
+  }
+  h2.main-title {
+    font-size: 12pt;
+    text-align: center;
+  }
+  div.dropdown-box.center-horizontal p {
+    font-size: 9pt;
+    text-align: justify;
+  }
+  .line-up-tax > div b {
+    font-size: 10pt;
+  }
+  .line-up-tax > div i {
+    font-size: 6pt;
+    color: #3a3939;
+  }
+  div.bar-circle-block .progress__number {
+    font-size: 8.5pt !important;
+  }
+  div.financement-barcircle > div.progress--circle {
+    width: 100px;
+    height: 100px;
+  }
+  div.bar.cf span.label {
+    text-align: left;
+    width: fit-content !important;
+  }
+  div.bar.cf span.count {
+    margin-left: 15px;
+    font-size: 8pt;
+    margin-top: 5px;
+  }
+  .valuer-sub-menu ul.estimation-menu {
+    margin-left: 0px;
+    display: table-row-group;
+  }
+  .valuer-sub-menu ul.estimation-menu li {
+    display: contents;
+    border: none;
+    padding: 0;
+  }
+  .valuer-sub-menu ul.estimation-menu li:after {
+    content: ' |';
+    color: #757474;
+  }
+  .valuer-sub-menu ul.estimation-menu li:last-child:after{
+    content: none;
+  }
+  .valuer-sub-menu ul.estimation-menu li.active a {
+    color: #3a6490 !important;
+  }
+}
+.bdv-title-rate.bdv-no-padding.bdv-grid-xs-12 > div {
+    color: #4777a2;
+}
+</style>

@@ -1373,4 +1373,7 @@ init();
     color: #3a6490 !important;
   }
 }
+.bdv-title-rate.bdv-no-padding.bdv-grid-xs-12 > div {
+    color: #4777a2;
+}
 </style>
