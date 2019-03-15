@@ -491,7 +491,7 @@ init();
    min-height: 165px;
    width: 48%;
    border-radius: 5px;
-   color: black;
+   color: white;
    background: #567dab;
    margin: 3%;
    padding: 7% 3%;
