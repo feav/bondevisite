@@ -178,3 +178,27 @@
 	    width: 79%;
 	}
 </style>
+
+<style type="text/css">
+@media screen and (max-width: 480px){
+	.dropdown-box.center-horizontal {
+	    margin: auto;
+	}
+	form.ng-dirty.ng-valid-parse.ng-invalid.ng-invalid-required {
+	    width: inherit;
+	}
+	#choiceWhere .form-select {
+	    width: 100%;
+	}
+	.inputs-row {
+	    flex-direction: column;
+	}
+	.inputs-row {
+	    flex-direction: column;
+	    margin-bottom: 7px;
+	}
+	.inputNumberContainer {
+	    margin: 0;
+	}
+}
+</style>

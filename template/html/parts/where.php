@@ -4,7 +4,7 @@
 			<p class="help-text">Estimer une maison, un appartement, obtenez le prix au m2 pour chaque bien immobilier en France avec notre outil d’estimation immobilière</p>
 			<div class="content-dropdown">
 				<div class="ui dropdown ">
-				  	<input autocomplete="off" type="text" ng-model="where" name="search" ng-keypress="updateWhere()" placeholder="Entrez une adresse">
+				  	<input autocomplete="off" type="text" ng-model="where" name="search" ng-keypress="updateWhere()" ng-change="updateWhere()" placeholder="Entrez une adresse">
 				  	<button class="default text" ng-click="nextStape()">Chercher</button>
 				</div>
 				  	<div class="menu">

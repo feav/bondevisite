@@ -8,7 +8,8 @@
 <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
 
 <div ng-app="BonDeVisite">
-<!-- <div  ng-controller="information" ng-hide='1'>
+<!-- 
+<div  ng-controller="information" ng-hide='1'>
   <div>
     <div ng-repeat="elt in elements">
       <b ng-bind="elt.label"></b>:<span ng-bind="elt.value"></span>
@@ -311,8 +312,10 @@ app.controller('choiceWhere', function($scope, Data,$location) {
     }
     $scope.nextStape= function(){
     	openMenu(false);
-      if(check_data(".ui.dropdown",Data.infos[0].lieu,"")==false)
+      if(check_data(".ui.dropdown",Data.infos[0].lieu,"")==false){
+        openMenu(true);
         return;
+      }
 
     	$location.path("/quoi");
     };

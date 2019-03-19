@@ -14,7 +14,7 @@
          <!-- <li><a ><i class="bdv-icon-app-Inscrease"></i> Évolution</a></li> -->
          <li><a  href="#part-comparatif"><i class="bdv-icon-app-PinMap"></i> Comparatif</a></li>
 <!--          <li class="ng-star-inserted"><a href="#part-Rentabilite"><i class="bdv-icon-app-Dynamics"></i> Rentabilité</a></li>
- -->        <?php  if($_GET['vente_loyer']=="0"){  ?> <li class="ng-star-inserted"><a  href="#part-Financement"><i class="bdv-icon-app-Tax"></i> Financement</a></li><?php } ?>
+ -->        <?php  if($_GET['vente_loyer']==0){  ?> <li class="ng-star-inserted"><a  href="#part-Financement"><i class="bdv-icon-app-Tax"></i> Financement</a></li><?php } ?>
          <li><a href="#part-Evaluation"><i class="bdv-icon-app-GlobalNotation"></i> Évaluation immobilière</a></li>
       </ul>
    </div>
@@ -29,7 +29,11 @@
             <h1 class="price">0 €</h1>
          </div>
          <div class="estimation-center">
-            <h3 class="">Le montant du loyer avec charges est estimé à</h3>
+          <?php  if($_GET['vente_loyer']==0){  ?> 
+            <h3 class="">Le bien est estimé à</h3>
+          <?php  }else{  ?> 
+                        <h3 class="">Le montant du loyer avec charges est estimé à</h3>
+          <?php  }  ?> 
             <h1 class="price center">0 €</h1>
          </div>
          <div class="estimation-fourchette-max">
@@ -71,7 +75,7 @@
          </div>
       </div>
    </div>
-   <?php if($_GET['vente_loyer']=="0"){  ?>
+   <?php if($_GET['vente_loyer']==0){  ?>
 
    <div class="dropdown-box center-horizontal bar-graphe-integration" id="part-Financement" style="display: none">
       <h2 class="main-title">Financement</h2>
@@ -402,6 +406,8 @@ bdvwidget.setInput(
         jQuery("#financement-frais-notariaux span").html(parseInt(data.results.results.thirdPartyFees.agency_fees_ratio));
         jQuery("#financement-frais-agence span").html(parseInt(data.results.results.thirdPartyFees.notary_fees_ratio));
 
+        jQuery(".financement-barcircle").hide();
+        jQuery("#part-Financement > p:nth-child(5)").hide();
 
         jQuery("#emprunt-mensualite ._10").attr("data-percent",data.results.results.thirdPartyFees.monthly_mortage_10_years);
         jQuery("#emprunt-mensualite ._15").attr("data-percent",data.results.results.thirdPartyFees.monthly_mortage_15_years);
@@ -435,7 +441,7 @@ bdvwidget.setInput(
       }
     });
 }
-init();
+// init();
 </script>
 
 <style type="text/css">

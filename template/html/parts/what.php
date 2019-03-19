@@ -197,7 +197,42 @@
 	    width: 100%;
 	}
 	h2.item-what-title.ng-binding {
-	    font-size: 15pt;
+	    font-size: 10pt;
+	}
+	.item-what {
+	    font-size: 8pt;
+	}
+	.valuer-formulaire-step3-boxes {
+	    display: flex;
+	    width: 90%;
+	    justify-content: space-around;
+	}
+	label.type-maison.ng-scope {
+	    width: 45%;
+	}
+	#choiceWhere .form-select {
+	    width: 100%;
+	}
+
+	#choiceWhere .form-select {
+	    justify-content: normal;
+	        width: 90%;
+	}
+	.type-maison {
+	    max-width: 110px;
+	}
+	.valuer-formulaire-step3-boxes {
+	    width: 100%;
+	}
+	h4.ng-binding {
+	    font-size: 10pt;
+	}
+	.type-maison {
+	    max-width: 110px;
+	    padding-bottom: 0;
+	}
+	label.type-maison.ng-scope {
+	    max-width: 110px;
 	}
 }
 </style>
