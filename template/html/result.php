@@ -12,7 +12,11 @@
       <ul class="estimation-menu">
          <li class="active"><a  href="#part-estimation"> Estimation</a></li>
          <!-- <li><a ><i class="bdv-icon-app-Inscrease"></i> Évolution</a></li> -->
-         <li><a  href="#part-comparatif"><i class="bdv-icon-app-PinMap"></i> Comparatif</a></li>
+         <?php  if($_GET['vente_loyer']==1){  ?>
+
+          <li><a  href="#part-comparatif"><i class="bdv-icon-app-PinMap"></i> Comparatif</a></li>
+
+         <?php  }  ?>
 <!--          <li class="ng-star-inserted"><a href="#part-Rentabilite"><i class="bdv-icon-app-Dynamics"></i> Rentabilité</a></li>
  -->        <?php  if($_GET['vente_loyer']==0){  ?> <li class="ng-star-inserted"><a  href="#part-Financement"><i class="bdv-icon-app-Tax"></i> Financement</a></li><?php } ?>
          <li><a href="#part-Evaluation"><i class="bdv-icon-app-GlobalNotation"></i> Évaluation immobilière</a></li>
@@ -42,6 +46,7 @@
          </div>
       </div>
    </div>
+   <?php  if($_GET['vente_loyer']==1){  ?>
    <div class="dropdown-box center-horizontal" id="part-Comparatif" style="display: none">
       <h2 class="main-title">Rentabilité brute annuelle.</h2>
       <p>Estimation de la rentabilité brute annuelle sur ce bien</p>
@@ -56,7 +61,7 @@
          </div>
       </div>
    </div>
-
+  <?php  }  ?>
    <div class="dropdown-box center-horizontal"  id="part-comparatif" style="display: none">
       <h2 class="main-title">Comparatif avec des biens similaires du même secteur</h2>
       <p>Nous étudions le nombre de transactions historiques ayant eu lieu à cette adresse et correspondant aux qualités intrinsèques de votre bien.</p>
@@ -330,8 +335,10 @@ bdvwidget.setInput(
           min = max;
           max = c;
         }
-        jQuery("#rent-min").html(min+"%");
-        jQuery("#rent-max").html(max+"%");
+        if(Data.infos[1].vente_loyer){
+          jQuery("#rent-min").html(min+"%");
+          jQuery("#rent-max").html(max+"%");
+        }
       }
     });
     var loyer_link ="https://bdvapis.appspot.com/46a70e16b75575a5231d117e1fb6fd8a841e67f8/valuation/v2.0.0/rent";
@@ -391,9 +398,9 @@ bdvwidget.setInput(
         console.log(min);
         console.log(val);
         console.log(max);
-        jQuery("#compare-min").html(money_val(min)+" $");
-        jQuery("#compare-val").html(money_val(val)+" $");
-        jQuery("#compare-max").html(money_val(max)+" $ ");
+        jQuery("#compare-min").html(money_val(min)+" €");
+        jQuery("#compare-val").html(money_val(val)+" €");
+        jQuery("#compare-max").html(money_val(max)+" € ");
         jQuery("#block-line-1").css("margin-top",percent(100-percent(min,max),125)+"px");
         jQuery("#block-line-2").css("margin-top",percent(100-percent(val,max),125)+"px");
         jQuery("#block-line-3").css("margin-top",percent(100-percent(max,max),125)+"px");
@@ -441,7 +448,7 @@ bdvwidget.setInput(
       }
     });
 }
-// init();
+ init();
 </script>
 
 <style type="text/css">
