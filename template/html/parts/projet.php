@@ -1,43 +1,11 @@
-
 <div ng-controller="choiceStep6" class="form-select">	
-	<form action="#" method="get" ng-submit="nextStape()">
+	<div action="#" method="get" ng-submit="nextStape()">
 		<div class="dropdown-box center-horizontal">
 			<h2 class="main-title">Votre projet</h2>	
 			<p class="help-text">Veuillez décrire votre projet</p>
 			<div  class="valuer-formulaire-step1" >
 
 		        <div class="valuer-formulaire-step4   ng-star-inserted" formgroupname="step4" style="">
-		<input type="texto" name="lieu" ng-model="datas.infos[0].lieu">
-		<input type="texto" name="gpsx" ng-model="datas.infos[0].gpsx">
-		<input type="texto" name="gpsy" ng-model="datas.infos[0].gpsy">
-
-		<input type="texto" name="vente_loyer" ng-model="datas.infos[1].vente_loyer">
-
-		<input type="texto" name="type" ng-model="datas.infos[3].type">
-		
-		<input type="texto" name="surface" ng-model="datas.infos[4].surface">
-		<input type="texto" name="pieces" ng-model="datas.infos[4].pieces">
-		<input type="texto" name="chambres" ng-model="datas.infos[4].chambres">
-		<input type="texto" name="etages" ng-model="datas.infos[4].etages">
-		<input type="texto" name="etat" ng-model="datas.infos[4].etat">
-		<input type="texto" name="etage_im" ng-model="datas.infos[4].etage_im">
-
-		<input type="texto" name="Balcon" ng-model="datas.infos[5].Balcon">
-		<input type="texto" name="Concierge" ng-model="datas.infos[5].Concierge">
-		<input type="texto" name="Cuisine" ng-model="datas.infos[5].Cuisine">
-		<input type="texto" name="Piscine" ng-model="datas.infos[5].Piscine">
-		<input type="texto" name="Chauffage" ng-model="datas.infos[5].Chauffage">
-		<input type="texto" name="Garage" ng-model="datas.infos[5].Garage">
-		<input type="texto" name="Terrasse" ng-model="datas.infos[5].Terrasse">
-		<input type="texto" name="Ascenseur" ng-model="datas.infos[5].Ascenseur">
-		<input type="texto" name="Parking" ng-model="datas.infos[5].Parking">
-		<input type="texto" name="Cave" ng-model="datas.infos[5].Cave">
-
-		<input type="texto" name="souhait" ng-model="datas.infos[6].souhait">
-		<input type="texto" name="quand" ng-model="datas.infos[6].quand">
-		<input type="texto" name="investissement" ng-model="datas.infos[6].investissement">
-
-		<input type="texto" name="result_estimation" value="1">
 
         <div class="inputs-row">
 
@@ -80,7 +48,7 @@
           </div>
 
         </div>
-        <button  type="submit" class="default text" name="button" type="button">Suivant</button>
+        <button  type="submit" class="default text" name="button"  ng-click="nextStape()">Suivant</button>
       </div>
 
 	      	</div>

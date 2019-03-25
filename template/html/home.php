@@ -135,6 +135,7 @@ app.factory('Data', function(){
           etages:'',
           etat:'',
           etage_im:'',
+          surface_jardin:''
         },
         {
           Balcon:0,
@@ -178,10 +179,14 @@ app.config(function($routeProvider) {
 	    templateUrl : "<?php echo WPBDVAPI_URL.'template/html/parts/details.php'?>",
     	controller : "choiceStep4"
 	  })
-	  .when("/caracteristiques", {
-	    templateUrl : "<?php echo WPBDVAPI_URL.'template/html/parts/caracteristiques.php'?>",
-    	controller : "choiceStep5"
-	  })
+    .when("/caracteristiques", {
+      templateUrl : "<?php echo WPBDVAPI_URL.'template/html/parts/caracteristiques.php'?>",
+      controller : "choiceStep5"
+    })
+    .when("/informations", {
+      templateUrl : "<?php echo WPBDVAPI_URL.'template/html/parts/informations.php'?>",
+      controller : "infoCtrl"
+    })
     .when("/projet", {
       templateUrl : "<?php echo WPBDVAPI_URL.'template/html/parts/projet.php'?>",
       controller : "choiceStep6"
@@ -362,15 +367,11 @@ app.controller('choiceStep1', function($scope, Data,$location) {
   	$scope.url_site = "<?php echo WPBDVAPI_URL?>";
     $scope.choiceItem = function(elt){
     	Data.infos[1].vente_loyer = elt.id;
-
     	$scope.nextStape();
     }
 
     $scope.nextStape= function(){
-
-
     	$location.path("/type_appart");
-
     };
 });
 app.controller('choiceStep2', function($scope, Data,$location) {
@@ -444,6 +445,7 @@ app.controller('choiceStep3', function($scope, Data,$location) {
 app.controller('choiceStep4', function($scope, Data,$location) {
     jQuery("#choiceWhere").removeClass("bg-grad");
     $scope.choice = 0;
+    $scope.type = Data.infos[3].type;
     $scope.chambres = [
       {label:"1 chambre",value:"1"},
       {label:"2 chambres",value:"2"},
@@ -465,10 +467,10 @@ app.controller('choiceStep4', function($scope, Data,$location) {
       {label:"8 pieces et plus",value:"8"},
     ];
     $scope.etats = [
-      {label:"Refait à neuf",value:"1"},
-      {label:"Standard",value:"2"},
-      {label:"Nécessite un rafraichissement",value:"3"},
-      {label:"Nécessite des travaux importants",value:"4"},
+      {label:"Refait à neuf",value:"0"},
+      {label:"Standard",value:"1"},
+      {label:"Nécessite un rafraichissement",value:"2"},
+      {label:"Nécessite des travaux importants",value:"3"},
     ];
     $scope.data = {
           surface : Data.infos[4].surface,
@@ -476,7 +478,8 @@ app.controller('choiceStep4', function($scope, Data,$location) {
           chambres : Data.infos[4].chambres,
           etage : Data.infos[4].etages,
           etat : Data.infos[4].etat,
-          etages : Data.infos[4].etage_im
+          etages : Data.infos[4].etage_im,
+          surface_jardin:Data.infos[4].surface_jardin
       };
 	$scope.url_site = "<?php echo WPBDVAPI_URL?>";
     $scope.choiceItem = function(elt){
@@ -506,7 +509,7 @@ app.controller('choiceStep5', function($scope, Data,$location) {
     jQuery("#choiceWhere").removeClass("bg-grad");
     $scope.choice = 0;
     $scope.posibilities = [
-	    [
+      [
         {id:"Balcon",label:"Balcon",value:Data.infos[5].Balcon},
         {id:"Concierge",label:"Concierge",value:Data.infos[5].Concierge}
       ],
@@ -529,9 +532,9 @@ app.controller('choiceStep5', function($scope, Data,$location) {
         {id:"Cave",label:"Cave",value:Data.infos[5].Cave}
       ]
     ];
-	$scope.url_site = "<?php echo WPBDVAPI_URL?>";
+     $scope.url_site = "<?php echo WPBDVAPI_URL?>";
     $scope.choiceItem = function(elt){
-    	$scope.choice = elt.id;
+      $scope.choice = elt.id;
     }
 
     $scope.nextStape= function(){
@@ -546,7 +549,7 @@ app.controller('choiceStep5', function($scope, Data,$location) {
       Data.infos[5].Parking = $scope.posibilities[4][0].value?1:0;
       Data.infos[5].Cave = $scope.posibilities[5][0].value?1:0;
       
-    	$location.path("/projet");
+      $location.path("/projet");
     };
 });
 app.controller('choiceStep6', function($scope, Data,$location) {
@@ -624,10 +627,31 @@ app.controller('choiceStep6', function($scope, Data,$location) {
       Data.infos[6].quand = $scope.data.quand;
       Data.infos[6].investissement = $scope.data.investissement;
 
-      return  check_data("select.quand",Data.infos[6].quand,'');
+      var retour=  check_data("select.quand",Data.infos[6].quand,'');
       if(retour){
-        $location.path("/estimation");
+        $location.path("/informations");
       }
+    };
+});
+
+app.controller('infoCtrl', function($scope, Data,$location) {
+    jQuery("#choiceWhere").removeClass("bg-grad");
+    $scope.datas = Data;
+    $scope.choice = 0;
+    $scope.posibilities = [
+        {id:"names",label:"Nom",value:''},
+        {id:"prenom",label:"prenom",value:''},
+        {id:"phone",label:"Phone",value:''},
+        {id:"email",label:"Email",value:''}
+    ];
+     $scope.url_site = "<?php echo WPBDVAPI_URL?>";
+    $scope.choiceItem = function(elt){
+      $scope.choice = elt.id;
+    }
+
+    $scope.nextStape= function(){
+      
+      $location.path("/projet");
     };
 });
 app.controller('result', function($scope, Data,$location) {

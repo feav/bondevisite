@@ -46,7 +46,7 @@
          </div>
       </div>
    </div>
-   <?php  if($_GET['vente_loyer']==1){  ?>
+   <?php  if($_GET['investissement']=='true'){  ?>
    <div class="dropdown-box center-horizontal" id="part-Comparatif" style="display: none">
       <h2 class="main-title">Rentabilité brute annuelle.</h2>
       <p>Estimation de la rentabilité brute annuelle sur ce bien</p>
@@ -185,6 +185,7 @@ var Data = {
           etages:"<?php echo (isset($_GET['etages'])?$_GET['etages']:'');?>",
           etat:"<?php echo (isset($_GET['etat'])?$_GET['etat']:'');?>",
           etage_im:"<?php echo (isset($_GET['etage_im'])?$_GET['etage_im']:'');?>",
+          surface_jardin:"<?php echo (isset($_GET['etage_im'])?$_GET['surface_jardin']:'');?>",
         },
         {
           Balcon:"<?php echo (isset($_GET['Balcon'])?$_GET['Balcon']:0);?>",
@@ -199,9 +200,9 @@ var Data = {
           Cave :"<?php echo (isset($_GET['Cave'])?$_GET['Cave']:0);?>"
         },
         {
-          souhait:'purchase',
-          quand :'',
-          investissement :''
+          souhait:"<?php echo (isset($_GET['souhait'])?$_GET['souhait']:'purchase');?>",
+          quand :"<?php echo (isset($_GET['quand'])?$_GET['quand']:'');?>",
+          investissement :"<?php echo (isset($_GET['investissement'])?(boolean)$_GET['investissement']:'');?>"
         }
     	]
     };
@@ -335,7 +336,7 @@ bdvwidget.setInput(
           min = max;
           max = c;
         }
-        if(Data.infos[1].vente_loyer){
+        if(jQuery("#rent-min").length){
           jQuery("#rent-min").html(min+"%");
           jQuery("#rent-max").html(max+"%");
         }
@@ -354,6 +355,7 @@ bdvwidget.setInput(
       nb_bedroom: Data.infos[4].chambres,
       storey: Data.infos[4].etages,
       nb_storey: Data.infos[4].etage_im,
+      garden_surface: Data.infos[4].surface_jardin,
       etatBien: Data.infos[4].etat,
       concierge:  Data.infos[5].Concierge,
       balcony: Data.infos[5].Balcon,
@@ -395,6 +397,8 @@ bdvwidget.setInput(
         var min = data.results.results.mainValuation.virtual_price_min*200;
         var val = parseInt(data.results.results.mainValuation.predicted_price);
         var max = data.results.results.mainValuation.virtual_price_max*200;
+        min = data.results.results.mainValuation.confidence_min;
+        max = data.results.results.mainValuation.confidence_max;
         console.log(min);
         console.log(val);
         console.log(max);
@@ -404,7 +408,6 @@ bdvwidget.setInput(
         jQuery("#block-line-1").css("margin-top",percent(100-percent(min,max),125)+"px");
         jQuery("#block-line-2").css("margin-top",percent(100-percent(val,max),125)+"px");
         jQuery("#block-line-3").css("margin-top",percent(100-percent(max,max),125)+"px");
-
 
         if(Data.infos[1].vente_loyer)return 0;
         jQuery("#financement-frais-notariaux").attr("class","progress--circle progress--"+mult_cinq(data.results.results.thirdPartyFees.agency_fees_ratio));

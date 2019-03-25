@@ -65,9 +65,14 @@
           </div>
 
           
-          <!----><div class="input-group input-group-margin ">
+          <div class="input-group input-group-margin " ng-if="type==1">
             <h4 class="item-title" for="nb_storey">Etage(s) de l'immeuble</h4>
             <input class="etages" ng-model="data.etages"  formcontrolname="nb_storey" name="nb_storey" placeholder="1" type="number" min="">
+          </div>
+          
+          <div class="input-group input-group-margin " ng-if="type==0">
+            <h4 class="item-title" for="surface_jardin">Surface du jardin</h4>
+            <input class="surface_jardin" ng-model="data.surface_jardin"  formcontrolname="surface_jardin" name="surface_jardin" placeholder="1" type="number" min="">
           </div>
 
           
