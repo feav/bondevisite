@@ -19,9 +19,9 @@
           <div class="input-group input-group-margin">
             <h4 class="item-title" for="nb_room">Pièces <i class="fas fa-asterisk"></i></h4>
             <div class="select-wrapper">
-              <select class="pieces "  ng-model="data.pieces" formcontrolname="nb_room" name="nb_room">
-              	<option disabled="disabled" value="" selected="selected">Nombre de piece(s)</option>
-                <option ng-repeat="piece in pieces" class="" value="{{piece.value}}" ng-selected="data.piece==piece.value" ng-bind="piece.label"></option>
+              <select class="pieces "  model="data.pieces" formcontrolname="nb_room" name="nb_room">
+              	<option disabled="disabled" value="0" ng-selected="data.pieces==0">Nombre de piece(s)</option>
+                <option ng-repeat="piece in pieces" class="" value="{{piece.value}}" ng-selected="data.pieces==piece.value" ng-bind="piece.label"></option>
 
               </select>
             </div>
@@ -34,8 +34,8 @@
           <div class="input-group">
             <h4 class="item-title" for="nb_bedroom">Chambres <i class="fas fa-asterisk"></i></h4>
             <div class="select-wrapper">
-              <select class="chambres "  ng-model="data.chambres"  formcontrolname="nb_bedroom" name="nb_bedroom">
-              <option disabled="disabled" value="" selected="selected">Nombre de Chambre(s)</option>
+              <select class="chambres "  model="data.chambres"  formcontrolname="nb_bedroom" name="nb_bedroom">
+              <option disabled="disabled" value=""  ng-selected="data.chambres==0" >Nombre de Chambre(s)</option>
 
                 <option ng-repeat="chambre in chambres" class="" value="{{chambre.value}}" ng-selected="data.chambres==chambre.value" ng-bind="chambre.label"></option>
               </select>
@@ -56,8 +56,8 @@
           <div class="input-group">
             <h4 class="item-title" ng-model="data.chambres"   for="nb_room">Etat du bien</h4>
             <div class="select-wrapper">
-              <select class="etat " ng-model="data.etat" formcontrolname="etatBien">              	
-              	<option disabled="disabled" value="" selected="selected">Etat du bien</option>
+              <select class="etat " model="data.etat" formcontrolname="etatBien" name="etat">              	
+              	<option disabled="disabled" value="0"  ng-selected="data.etat==-1">Etat du bien</option>
 
                 <option ng-repeat="etat in etats" class="" value="{{etat.value}}" ng-selected="data.etat==etat.value" ng-bind="etat.label"></option>
               </select>

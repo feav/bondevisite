@@ -13,8 +13,8 @@
             <h4 class="item-title" for="surface">Je souhaite <i class="fas fa-asterisk"></i></h4>
             <div class="inputNumberContainer">
 
- 			<select class=" souhait"  required="required" ng-change="changeWish()" ng-model="data.souhait">  
-                <option disabled="disabled" value="" selected="selected">Votre projet</option>
+ 			<select class=" souhait" id="_souhait" required="required" ng-change="changeWish()" ng-model="data.souhait">  
+                <option disabled="disabled" value="" ng-selected="data.souhait==0" >Votre projet</option>
  					<option ng-repeat="etat in souhaits" class="" value="{{etat.value}}" ng-selected="data.souhait==etat.value" ng-bind="etat.label"></option>
 
               </select>
@@ -26,8 +26,8 @@
           <div class="input-group input-group-margin">
             <h4 class="item-title" for="nb_room">Pour quand <i class="fas fa-asterisk"></i></h4>
             <div class="select-wrapper">
-              <select class="quand "  ng-model="data.quand" required="required">
-                <option disabled="disabled" value="" selected="selected">Délai de réalisation</option>
+              <select class="quand " id="_quand"  model="data.quand" required="required">
+                <option disabled="disabled" value="" ng-selected="data.quand==0" >Délai de réalisation</option>
                 <option ng-repeat="etat in quand" class="" value="{{etat.value}}" ng-selected="data.quand==etat.value" ng-bind="etat.label"></option>
               </select>
             </div>
@@ -37,9 +37,9 @@
 
         <div class="inputs-row api-bdv">
 
-          <div class="input-group" ng-hide="data.souhait!='sell'">
+          <div class="input-group" ng-hide="data.souhait=='renter' || data.souhait=='sell' ">
 			<div class="styled-input-single">
-			    <input type="checkbox" name="investissement" id="investissement" ng-model="data.investissement" id="investissement" />
+			    <input type="checkbox" name="investissement" ng-model="data.investissement" id="investissement" />
 			        <label for="investissement">
 			        	C'est un projet d'investissement locatif
 			    	</label>

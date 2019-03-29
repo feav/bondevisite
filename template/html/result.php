@@ -1,10 +1,43 @@
 
 <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> -->
-<!-- <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
-<link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' /> -->
-<!-- http://vendmy.local/?page_id=8975&lieu=1+Boulevard+du+Docteur+Parini%2C+Marseille&gpsx=0&gpsy=0&vente_loyer=0&type=1&surface=200&pieces=6&chambres=3&etages=2&etat=2&etage_im=2&Balcon=1&Concierge=0&Cuisine=1&Piscine=1&Chauffage=1&Garage=0&Terrasse=0&Ascenseur=0&Parking=0&Cave=0&souhait=purchase&quand=between+3+and+6&investissement=0&result_estimation=1&button=# -->
-<div>
+<div id="content-estimation">
+<div style="display: flex;flex-direction: column;">
+
+
+  <div class="valuer-result-content-header-row content-top">
+
+      <div class="valuer-result-content-header-left col-xs-12 col-sm-4">
+        <span class="">
+          <?php  if($_GET['vente_loyer']==0){  ?> 
+            Le bien est estimé à
+          <?php  }else{  ?> 
+           Le montant du loyer avec charges est estimé à
+          <?php  }  ?> </span>
+        <h6 class="address"><?php echo( $_GET['lieu'] ); ?></h6>
+
+        <div class="indiceConfiance">
+          <span class="indice">Indice de confiance</span><br class="">
+          <span class="description-idconf">Cet indice informe du niveau d’informations dont nous disposons pour réaliser l’estimation de votre bien immobilier</span>
+
+          <div class="indiceConfiance-blocks">
+          </div>
+
+        </div>
+      </div>
+
+      <div class="valuer-result-content-header-right col-xs-12 col-sm-8 text-right">
+        <button class="click-button"><a href="<?php echo "https://".$_SERVER['SERVER_NAME'].str_replace("result_estimation", "replace", $_SERVER['REQUEST_URI'] )?>">Modifer mon Estimation</a></button>
+        <button class="click-button"><a href="<?php echo $_SERVER['HTTP_REFERER'] ?>">Nouvelle Estimation</a></button>
+        <!-- <button class="click-button" onclick="function_pdf()">
+          <span class=" ">Générer Pdf</span>
+        </button> -->
+      </div>
+
+    </div>
+
+
+
+
 <div  id="choiceWhere" class="step-estimation active" ng-view>
 
 	<div id="result" class="bar-circle-block ">
@@ -17,8 +50,8 @@
           <li><a  href="#part-comparatif"><i class="bdv-icon-app-PinMap"></i> Comparatif</a></li>
 
          <?php  }  ?>
-<!--          <li class="ng-star-inserted"><a href="#part-Rentabilite"><i class="bdv-icon-app-Dynamics"></i> Rentabilité</a></li>
- -->        <?php  if($_GET['vente_loyer']==0){  ?> <li class="ng-star-inserted"><a  href="#part-Financement"><i class="bdv-icon-app-Tax"></i> Financement</a></li><?php } ?>
+<!--          <li class=""><a href="#part-Rentabilite"><i class="bdv-icon-app-Dynamics"></i> Rentabilité</a></li>
+ -->        <?php  if($_GET['vente_loyer']==0){  ?> <li class=""><a  href="#part-Financement"><i class="bdv-icon-app-Tax"></i> Financement</a></li><?php } ?>
          <li><a href="#part-Evaluation"><i class="bdv-icon-app-GlobalNotation"></i> Évaluation immobilière</a></li>
       </ul>
    </div>
@@ -65,6 +98,7 @@
    <div class="dropdown-box center-horizontal"  id="part-comparatif" style="display: none">
       <h2 class="main-title">Comparatif avec des biens similaires du même secteur</h2>
       <p>Nous étudions le nombre de transactions historiques ayant eu lieu à cette adresse et correspondant aux qualités intrinsèques de votre bien.</p>
+      <i id="validite-estimation" style="font-size: smaller;"></i>
       <div class="line-up-tax">
          <div class="line block-line" id="block-line-1">
             <div ><b id="compare-min">0</b></div>
@@ -72,7 +106,11 @@
          </div>
          <div class="line block-line" id="block-line-2">
             <div ><b  id="compare-val">0</b></div>
-            <i>Le bien estimé</i>
+            <i><?php if($_GET['vente_loyer']==0){  ?> 
+            Bien estimé
+          <?php  }else{  ?> 
+           Loyer Moyen
+          <?php  }  ?></i>
          </div>
          <div class="line block-line" id="block-line-3">
             <div ><b  id="compare-max">0</b></div>
@@ -128,13 +166,28 @@
 </div>
 </div>
 </div>
+</div>
+<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
 <script type="text/javascript" src="https://widget.bondevisite.fr/v2.0.0/bdv.js" crossorigin="anonymous"></script>
 
   <script type="text/javascript">
 
 </script>
 <script>
-
+var function_pdf = function(){
+  var doc = new jsPDF();
+ doc.fromHTML(jQuery('#content-estimation').html(), 15, 15, {
+          'width': 170,
+              'elementHandlers': {
+                  '#content-estimation': function(element, renderer) {
+                    console.log(element);
+                  return true;
+                  }
+                }
+      });
+      doc.save('estimation.pdf');
+}
 var money_val = function(r){
   r = (parseInt(r)+"").split("");
   var c = "";
@@ -393,10 +446,22 @@ bdvwidget.setInput(
         jQuery(".estimation-fourchette-max .price").html(money_val(estimation_max)+"€");
         jQuery(".estimation-center .price").html(money_val(estimation_val)+"€");
 
+
         console.log(data.results.results.mainValuation);
         var min = data.results.results.mainValuation.virtual_price_min*200;
         var val = parseInt(data.results.results.mainValuation.predicted_price);
         var max = data.results.results.mainValuation.virtual_price_max*200;
+        var confidence = data.results.results.mainValuation.confidence_index;
+        var c = jQuery(".indiceConfiance-blocks");
+        for(var x = 0; x < 5 ; x++){
+          if(x < confidence){
+            var y = "<div class='indiceConfiance-block'></div>";
+            c.append(y);
+          }else{
+            var y = "<div class='indiceConfiance-block' style='background: rgb(204, 204, 204);'></div>";
+            c.append(y);
+          }
+        }
         min = data.results.results.mainValuation.confidence_min;
         max = data.results.results.mainValuation.confidence_max;
         console.log(min);
@@ -408,6 +473,28 @@ bdvwidget.setInput(
         jQuery("#block-line-1").css("margin-top",percent(100-percent(min,max),125)+"px");
         jQuery("#block-line-2").css("margin-top",percent(100-percent(val,max),125)+"px");
         jQuery("#block-line-3").css("margin-top",percent(100-percent(max,max),125)+"px");
+
+
+        var _a, _z , r = data.results.results.priceHistory;
+
+        console.log(r);
+
+        var months = [ "Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre" ];
+        for(var e in r){_a=e;break}
+        for(var e in r){if(e.length<9)_z=e;}
+
+        var d_y = parseInt(_a.substr(0,4));//year
+        var d_m = months[parseInt(_a.substr(4,2))];//mois
+        var d_d = parseInt(_a.substr(6,2));//jour
+
+        var f_y = parseInt(_z.substr(0,4));//year
+        var f_m = months[parseInt(_z.substr(4,2))];//mois
+        var f_d = parseInt(_z.substr(6,2));//jour
+         
+        var _x  = "Données entre "+d_d+"/"+d_m+"/"+d_y+" et "+f_d+"/"+f_m+"/"+f_y;
+
+        jQuery("#validite-estimation").html(_x );
+
 
         if(Data.infos[1].vente_loyer)return 0;
         jQuery("#financement-frais-notariaux").attr("class","progress--circle progress--"+mult_cinq(data.results.results.thirdPartyFees.agency_fees_ratio));
@@ -453,7 +540,68 @@ bdvwidget.setInput(
 }
  init();
 </script>
+<style type="text/css">
+  .indiceConfiance-block {
+      width: 12px;
+      height: 12px;
+      background: #3a648f;
+      border-radius: 50%;
+      color: #9f9f9f;
+  }
+  .indiceConfiance-blocks {
+      display: flex;
+      justify-content: space-around;
+      width: 100px;
+  }
+  button.click-button {
+      padding: 0 20px;
+      color: #3a648f;
+      background: #fff;
+      border: 1px solid #3a648f;
+      font-family: Raleway,sans-serif;
+      font-weight: 800;
+      height: 40px;
+      border-radius: 3.5px;
+      -webkit-transition: .3s ease-in;
+      transition: .3s ease-in;
+      font-size: 8pt;
+      margin-left: 15px;
+  }
+  h6.address{
+    margin: 0;
+    font-size: 13pt;
+    color: #2a2a2a;
+    font-family: Raleway;
+    font-weight: 700;
+  }
+  span.indice{
+    font-size: 10pt;
+    font-weight: 500;
+    font-family: 'Open Sans',sans-serif;
+    color: #9f9f9f;
+  }
+  span.description-idconf{
+    font-family: Nunito;
+    font-size: 9pt;
+    font-weight: 500;
+    line-height: 14pt;
+    color: #2a2a2a;
+  }
+  span.ng-tns-c5-1{
+    font-family: Nunito;
+    color: #2a2a2a;
+    font-weight: 500;
+    font-size: 11pt;
+}
+  div.content-top{
+    display: flex;
 
+  }
+  div.content-top > div{
+    width: 50%;
+    
+  }
+</style>
 <style type="text/css">
   .line-up-tax {
     display: flex;
@@ -1305,12 +1453,34 @@ bdvwidget.setInput(
 
 
 </style>
-
+<!-- notary_fees_ratio -->
+<!-- confidence_index -->
 
 
 <style type="text/css">
 @media screen and (max-width: 480px){
-
+  div.content-top {
+      display: flex;
+      flex-direction: column-reverse;
+      width: 100%;
+  }
+  button.click-button {
+    padding: 0 5px;
+    color: #3a648f;
+    background: #fff;
+    border: 1px solid #3a648f;
+    font-family: Raleway,sans-serif;
+    font-weight: 800;
+    height: 30px;
+    border-radius: 3.5px;
+    -webkit-transition: .3s ease-in;
+    transition: .3s ease-in;
+    font-size: 6pt;
+    margin-left: 15px;
+  }
+  div.content-top > div{
+      width: 100%;
+  }
   div.valuer-result-global-estimation>div {
       margin-bottom: 28px;
       padding: 0px;

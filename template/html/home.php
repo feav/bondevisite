@@ -109,7 +109,7 @@ app.filter('range', function() {
 });
 app.factory('Data', function(){
     // I know this doesn't work, but what will?
-    return {
+   /* var retur =  {
     	stape:0,
     	infos:[
     		{
@@ -155,6 +155,59 @@ app.factory('Data', function(){
           investissement :''
         }
     	]
+    };*/
+    return {
+      stape:0,
+      infos:[
+        {
+          lieu:"<?php echo (isset($_GET['lieu'])?$_GET['lieu']:'');?>",
+          gpsx:"<?php echo (isset($_GET['gpsx'])?$_GET['gpsx']:0);?>",
+          gpsy:"<?php echo (isset($_GET['gpsy'])?$_GET['gpsy']:0);?>"
+        },
+        {
+          vente_loyer:parseInt("<?php echo (isset($_GET['vente_loyer'])?$_GET['vente_loyer']:0);?>")
+        },
+        {
+          lieu:"<?php echo (isset($_GET['lieu'])?$_GET['lieu']:'');?>",
+          gpsx:"<?php echo (isset($_GET['gpsx'])?$_GET['gpsx']:0);?>",
+          gpsy:"<?php echo (isset($_GET['gpsy'])?$_GET['gpsy']:0);?>"
+        },
+        {
+          type:"<?php echo (isset($_GET['type'])?$_GET['type']:0);?>"
+        },
+        {
+          surface:"<?php echo (isset($_GET['surface'])?$_GET['surface']:'');?>",
+          pieces:"<?php echo (isset($_GET['pieces'])?$_GET['pieces']:0);?>",
+          chambres:"<?php echo (isset($_GET['chambres'])?$_GET['chambres']:0);?>",
+          etages:"<?php echo (isset($_GET['etages'])?$_GET['etages']:'');?>",
+          etat:"<?php echo (isset($_GET['etat'])?$_GET['etat']:-1);?>",
+          etage_im:"<?php echo (isset($_GET['etage_im'])?$_GET['etage_im']:'');?>",
+          surface_jardin:"<?php echo (isset($_GET['etage_im'])?$_GET['surface_jardin']:'');?>",
+        },
+        {
+          Balcon:"<?php echo (isset($_GET['Balcon'])?$_GET['Balcon']:0);?>",
+          Concierge :"<?php echo (isset($_GET['Concierge'])?$_GET['Concierge']:0);?>",
+          Cuisine :"<?php echo (isset($_GET['Cuisine'])?$_GET['Cuisine']:0);?>",
+          Piscine :"<?php echo (isset($_GET['Piscine'])?$_GET['Piscine']:0);?>",
+          Chauffage :"<?php echo (isset($_GET['Chauffage'])?$_GET['Chauffage']:0);?>",
+          Garage :"<?php echo (isset($_GET['Garage'])?$_GET['Garage']:0);?>",
+          Terrasse :"<?php echo (isset($_GET['Terrasse'])?$_GET['Terrasse']:0);?>",
+          Ascenseur :"<?php echo (isset($_GET['Ascenseur'])?$_GET['Ascenseur']:0);?>",
+          Parking :"<?php echo (isset($_GET['Parking'])?$_GET['Parking']:0);?>",
+          Cave :"<?php echo (isset($_GET['Cave'])?$_GET['Cave']:0);?>"
+        },
+        {
+          souhait:"<?php echo (isset($_GET['souhait'])?$_GET['souhait']:'purchase');?>",
+          quand :"<?php echo (isset($_GET['quand'])?$_GET['quand']:'');?>",
+          investissement :"<?php echo (isset($_GET['investissement'])?(boolean)$_GET['investissement']:'');?>"
+        },
+        {
+          nom:"<?php echo (isset($_GET['names'])?$_GET['names']:'');?>",
+          surname :"<?php echo (isset($_GET['prenom'])?$_GET['prenom']:'');?>",
+          email :"<?php echo (isset($_GET['email'])?$_GET['email']:'');?>",
+          phone :"<?php echo (isset($_GET['phone'])?$_GET['phone']:'');?>"
+        }
+      ]
     }
 });
 app.config(function($routeProvider) {
@@ -176,7 +229,7 @@ app.config(function($routeProvider) {
     	controller : "choiceStep3"
 	  })
 	  .when("/details", {
-	    templateUrl : "<?php echo WPBDVAPI_URL.'template/html/parts/details.php'?>",
+	    templateUrl : "<?php echo WPBDVAPI_URL.'template/html/parts/details.php?pieces=7'?>",
     	controller : "choiceStep4"
 	  })
     .when("/caracteristiques", {
@@ -417,7 +470,7 @@ app.controller('choiceStep2', function($scope, Data,$location) {
 });
 app.controller('choiceStep3', function($scope, Data,$location) {
     jQuery("#choiceWhere").removeClass("bg-grad");
-    $scope.choice = 0;
+    $scope.choice = Data.infos[3].type;
     $scope.posibilities = [
 	    {
 	    	id:1,
@@ -445,16 +498,17 @@ app.controller('choiceStep3', function($scope, Data,$location) {
 app.controller('choiceStep4', function($scope, Data,$location) {
     jQuery("#choiceWhere").removeClass("bg-grad");
     $scope.choice = 0;
+    console.log(Data);
     $scope.type = Data.infos[3].type;
     $scope.chambres = [
-      {label:"1 chambre",value:"1"},
-      {label:"2 chambres",value:"2"},
-      {label:"3 chambres",value:"3"},
-      {label:"4 chambres",value:"4"},
-      {label:"5 chambres",value:"5"},
-      {label:"6 chambres",value:"6"},
-      {label:"7 chambres",value:"7"},
-      {label:"8 chambres et plus",value:"8"},
+      {label:"1 chambre",value:1},
+      {label:"2 chambres",value:2},
+      {label:"3 chambres",value:3},
+      {label:"4 chambres",value:4},
+      {label:"5 chambres",value:5},
+      {label:"6 chambres",value:6},
+      {label:"7 chambres",value:7},
+      {label:"8 chambres et plus",value:8},
     ]; 
     $scope.pieces = [
       {label:"1 piece",value:"1"},
@@ -472,27 +526,33 @@ app.controller('choiceStep4', function($scope, Data,$location) {
       {label:"Nécessite un rafraichissement",value:"2"},
       {label:"Nécessite des travaux importants",value:"3"},
     ];
+
     $scope.data = {
-          surface : Data.infos[4].surface,
-          pieces : Data.infos[4].pieces,
-          chambres : Data.infos[4].chambres,
-          etage : Data.infos[4].etages,
-          etat : Data.infos[4].etat,
-          etages : Data.infos[4].etage_im,
-          surface_jardin:Data.infos[4].surface_jardin
+          surface : parseInt(Data.infos[4].surface),
+          pieces : parseInt(Data.infos[4].pieces),
+          chambres : parseInt(Data.infos[4].chambres),
+          etage : parseInt(Data.infos[4].etages),
+          etat : parseInt(Data.infos[4].etat),
+          etages : parseInt(Data.infos[4].etage_im),
+          surface_jardin:parseInt(Data.infos[4].surface_jardin)
       };
-	$scope.url_site = "<?php echo WPBDVAPI_URL?>";
+    $scope.data.pieces = parseInt(Data.infos[4].pieces);
+	   $scope.url_site = "<?php echo WPBDVAPI_URL?>";
+    
+    $scope.update = function(){
+      jQuery("#choiceWhere select[name=nb_room]").val(8);
+    }
     $scope.choiceItem = function(elt){
     	$scope.choice = elt.id;
     }
     $scope.nextStape= function(){
 
       Data.infos[4].surface = $scope.data.surface;
-      Data.infos[4].pieces = $scope.data.pieces;
-      Data.infos[4].chambres = $scope.data.chambres;
+      Data.infos[4].pieces = jQuery("#choiceWhere select[name=nb_room]").val();
+      Data.infos[4].chambres = jQuery("#choiceWhere select[name=nb_bedroom]").val();
       Data.infos[4].etages= $scope.data.etage ;
-      Data.infos[4].etat = $scope.data.etat;
-      Data.infos[4].etage_im = $scope.data.etages;
+      Data.infos[4].etat = jQuery("#choiceWhere select[name=etat]").val();
+      Data.infos[4].surface_jardin = $scope.data.surface_jardin;
 
       var retour = check_data("input.surface",Data.infos[4].surface,0);
       retour &= check_data("select.pieces",Data.infos[4].pieces,'');
@@ -510,26 +570,24 @@ app.controller('choiceStep5', function($scope, Data,$location) {
     $scope.choice = 0;
     $scope.posibilities = [
       [
-        {id:"Balcon",label:"Balcon",value:Data.infos[5].Balcon},
-        {id:"Concierge",label:"Concierge",value:Data.infos[5].Concierge}
+        {id:"Balcon",label:"Balcon",value:Data.infos[5].Balcon==1},
+        {id:"Concierge",label:"Concierge",value:Data.infos[5].Concierge==1}
       ],
       [
-        {id:"Cuisine",label:"Cuisine américaine",value:Data.infos[5].Cuisine},
-        {id:"Piscine",label:"Piscine",value:Data.infos[5].Piscine}
+        {id:"Terrasse",label:"Terrasse",value:Data.infos[5].Terrasse==1},
+        {id:"Piscine",label:"Piscine",value:Data.infos[5].Piscine==1}
+      ],
+      // [
+      //   {id:"Chauffage",label:"Chauffage collectif",value:Data.infos[5].Chauffage},
+      //   {id:"Garage",label:"Garage",value:Data.infos[5].Garage}
+      // ],
+      [
+        {id:"Parking",label:"Parking",value:Data.infos[5].Parking==1},
+        {id:"Garage",label:"Garage",value:Data.infos[5].Garage==1}
       ],
       [
-        {id:"Chauffage",label:"Chauffage collectif",value:Data.infos[5].Chauffage},
-        {id:"Garage",label:"Garage",value:Data.infos[5].Garage}
-      ],
-      [
-        {id:"Terrasse",label:"Terrasse",value:Data.infos[5].Terrasse},
-        {id:"Ascenseur",label:"Ascenseur",value:Data.infos[5].Ascenseur}
-      ],
-      [
-        {id:"Parking",label:"Parking",value:Data.infos[5].Parking}
-      ],
-      [
-        {id:"Cave",label:"Cave",value:Data.infos[5].Cave}
+        {id:"Ascenseur",label:"Ascenseur",value:Data.infos[5].Ascenseur==1},
+        {id:"Cave",label:"Cave",value:Data.infos[5].Cave==1}
       ]
     ];
      $scope.url_site = "<?php echo WPBDVAPI_URL?>";
@@ -540,14 +598,17 @@ app.controller('choiceStep5', function($scope, Data,$location) {
     $scope.nextStape= function(){
       Data.infos[5].Balcon = $scope.posibilities[0][0].value?1:0;
       Data.infos[5].Concierge = $scope.posibilities[0][1].value?1:0;
-      Data.infos[5].Cuisine = $scope.posibilities[1][0].value?1:0;
+
+      Data.infos[5].Terrasse = $scope.posibilities[1][0].value?1:0;
       Data.infos[5].Piscine = $scope.posibilities[1][1].value?1:0;
-      Data.infos[5].Chauffage = $scope.posibilities[2][0].value?1:0;
+
+      Data.infos[5].Parking = $scope.posibilities[2][0].value?1:0;
       Data.infos[5].Garage = $scope.posibilities[2][1].value?1:0;
-      Data.infos[5].Terrasse = $scope.posibilities[3][0].value?1:0;
-      Data.infos[5].Ascenseur = $scope.posibilities[3][1].value?1:0;
-      Data.infos[5].Parking = $scope.posibilities[4][0].value?1:0;
-      Data.infos[5].Cave = $scope.posibilities[5][0].value?1:0;
+
+      Data.infos[5].Ascenseur = $scope.posibilities[3][0].value?1:0;
+      Data.infos[5].Cave = $scope.posibilities[3][1].value?1:0;
+      // Data.infos[5].Cuisine = $scope.posibilities[1][0].value?1:0;
+      // Data.infos[5].Chauffage = $scope.posibilities[2][0].value?1:0;
       
       $location.path("/projet");
     };
@@ -612,9 +673,11 @@ app.controller('choiceStep6', function($scope, Data,$location) {
     $scope.data = {
     	souhait:Data.infos[6].souhait,
     	quand:Data.infos[6].quand,
-      investissement:Data.infos[6].investissement
+      investissement:Data.infos[6].investissement==1
     };
     $scope.changeWish = function(){
+      $scope.sou = jQuery("select#souhait").val();
+      if(c = "purchase" || c == "renter");
       $scope.data.investissement = 0;
     }
 	$scope.url_site = "<?php echo WPBDVAPI_URL?>";
@@ -623,8 +686,8 @@ app.controller('choiceStep6', function($scope, Data,$location) {
     }
 
     $scope.nextStape= function(){
-      Data.infos[6].souhait = $scope.data.souhait;
-      Data.infos[6].quand = $scope.data.quand;
+      Data.infos[6].souhait = jQuery("select#souhait").val();
+      Data.infos[6].quand = jQuery("select#quand").val();
       Data.infos[6].investissement = $scope.data.investissement;
 
       var retour=  check_data("select.quand",Data.infos[6].quand,'');
@@ -639,10 +702,10 @@ app.controller('infoCtrl', function($scope, Data,$location) {
     $scope.datas = Data;
     $scope.choice = 0;
     $scope.posibilities = [
-        {id:"names",label:"Nom",value:''},
-        {id:"prenom",label:"prenom",value:''},
-        {id:"phone",label:"Phone",value:''},
-        {id:"email",label:"Email",value:''}
+        {id:"names",label:"Nom",value:Data.infos[7].nom},
+        {id:"prenom",label:"prenom",value:Data.infos[7].surname},
+        {id:"phone",label:"Phone",value:Data.infos[7].phone},
+        {id:"email",label:"Email",value:Data.infos[7].email}
     ];
      $scope.url_site = "<?php echo WPBDVAPI_URL?>";
     $scope.choiceItem = function(elt){

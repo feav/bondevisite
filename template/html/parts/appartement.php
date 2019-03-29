@@ -10,7 +10,6 @@
 		            <i  class="fas fa-{{posibility.icon}}"></i>
 		            <h4  class="" ng-bind="posibility.label"></h4>
 		          </label>
-
 		        </div>
 				<button class="default text" ng-click="nextStape()">Suivant</button>
 

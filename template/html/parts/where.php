@@ -18,7 +18,7 @@
 
 
 </div>
-<div class="form-bg"> <img src="{{url_site}}template/img/AnimationCTABestimate.gif"></div>
+<div class="form-bg"> <img src="{{url_site}}template/img/estimation-gif.jpg"></div>
 
 <style type="text/css">
 	.step-estimation{
