@@ -9,8 +9,8 @@
   Plugin URI: https://www.vendmy.com
   Description: Integration des DE BON DE PRIX API
   Version: 1.0
-  Author: BabySitter
-  Author URI: http://tutor.com
+  Author: Vendmy
+  Author URI: http://Vendmy.com
 
  */
 
@@ -26,8 +26,10 @@ class BonDeVisiteAPI {
     function __construct() {
         add_shortcode('WIDGET_BON_DE_VISITE', array($this, 'get_form_bdv'));   
         add_action( 'plugins_loaded', array($this, 'vc_mapping') );
+        add_filter( 'add_estmater', array($this, 'add_estmater_callback'));
         
     }   
+
     /*
      * INit LINKS
      */
@@ -61,6 +63,11 @@ class BonDeVisiteAPI {
             );
         }
     }
+
+    function add_estmater_callback( $example ) {
+        // Maybe modify $example in some way.
+        return $example;
+    }
     /*
      * SHORCODE INTEGRATION
      */
@@ -77,7 +84,9 @@ class BonDeVisiteAPI {
         if ( is_admin() ) {
                 echo "Integration Bon de visite ";
         } else {
-          if(isset($_GET['result_estimation'])){
+          if(isset($_GET['filter'])){
+            var_dump( );
+          }else if(isset($_GET['result_estimation'])){
            if (file_exists(WPBDVAPI_DIR . '/template/html/result.php')) 
                  require_once(WPBDVAPI_DIR . '/template/html/result.php');
            
